@@ -37,6 +37,6 @@ export default {
       directory: path.join(__dirname, 'public'),
     },
     hot: true,
-    port: 5173
+    port: 4000
   }
 };
