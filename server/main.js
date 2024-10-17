@@ -31,3 +31,6 @@ app.get('/api/movies', authentication.getMovies);
 
 app.post('/api/login', authentication.login);
 app.post('/api/register', authentication.register);
+app.get('/api/profile', authentication.getProfileDetails);
+app.put('/api/profile', authentication.putProfileDetails);
+app.put('/api/profile/password', authentication.changePassword);
