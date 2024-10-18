@@ -1,0 +1,126 @@
+.movie-poster {
+    object-fit: cover;
+    height: 300px;
+
+}
+
+.movies-grid {
+    display: grid;
+    width: 80%;
+    grid-template-columns: repeat(auto-fill, minmax(24vh, 1fr));
+    gap: 2.4vh;
+    padding: 20px;
+}
+
+.movie-item-li{
+    list-style-type: none;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    background-color: #111;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+    width: 25vh;
+}
+
+.movie-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.movie-poster {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    transition: opacity 0.3s ease;
+}
+
+.movie-item:hover .movie-poster {
+    opacity: 0.9;
+}
+
+.movie-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    color: #f9d342;
+    height: 5rem;
+}
+
+.movie-item p {
+    font-size: 1rem;
+    color: #bbb;
+}
+
+.movie-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent, rgba(0, 0, 0, 0.8));
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.movie-item:hover::before {
+    opacity: 1;
+}
+
+.logout-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #f9d342;
+    font-size: 1.5rem;
+    text-decoration: underline;
+    background-color: inherit;
+    font-weight: bold;
+    transition: color 0.4s;
+}
+
+.logout-button:hover {
+    color: #d4a017;
+}
+
+.home-main{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+.input-search{
+    width: 40%;
+    background-color: #242424;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 20px 0;
+    font-size: 1.5rem;
+    color: #bbb;
+}
+
+.input-search::placeholder{
+    color: #bbb;
+}
+
+.input-search:focus{
+    outline: none;
+}
+

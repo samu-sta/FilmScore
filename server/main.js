@@ -23,14 +23,14 @@ app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
-});
 
 app.get('/api/movies', authentication.getMovies);
-
 app.post('/api/login', authentication.login);
 app.post('/api/register', authentication.register);
 app.get('/api/profile', authentication.getProfileDetails);
 app.put('/api/profile', authentication.putProfileDetails);
 app.put('/api/profile/password', authentication.changePassword);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+  });

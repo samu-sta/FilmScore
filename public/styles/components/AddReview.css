@@ -1,0 +1,97 @@
+.addreview {
+    background-color: #333;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.addreview-title{
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #eee;
+}
+
+.addreview-rating {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+.addreview-rating {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.addreview-textarea {
+    width: 100%;
+    resize: none;
+    height: 75px;
+    border-radius: 5px;
+    border: none;
+    background-color: inherit;
+    color: #ccc;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    outline: none;
+}
+
+.addreview-textarea::placeholder {
+    color: #666;
+}
+
+.addreview-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.addreview-input-rate {
+    background-color: inherit;
+    height: 100%;
+    border: none;
+    font-size: 1rem;
+    outline: none;
+    background-color: #555;
+    color: #ccc;
+    padding: 0.5rem;
+    border-radius: 5px;
+    width: 50px;
+    text-align: center;  
+}
+
+.addreview-button{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #111;
+    font-size: 1.5rem;
+    background-color: #f9d342;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.addreview-button-add{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: inherit;
+    color: #f9d342;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: color 0.4s;
+}
+
+.addreview-button-add:hover {
+    color: #d4a017;
+}
+
+.addreview-button:hover {
+    background-color: #d4a017;
+}

@@ -1,0 +1,38 @@
+.review {
+    background-color: #333;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.review-author{
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #eee;
+}
+
+.review-rating, .review-content {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+.review-rating {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.review-button-confirm{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #111;
+    font-size: 1.5rem;
+    text-decoration: underline;
+    background-color: #f9d342;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}

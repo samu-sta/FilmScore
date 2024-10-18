@@ -1,0 +1,17 @@
+.details-info-item {
+    border: 1px solid #f9d342;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.details-info-item h3 {
+    font-size: 1.2rem;
+    color: #f9d342;
+}
+
+.details-info-item p {
+    font-size: 0.9rem;
+    color: #ccc;
+}

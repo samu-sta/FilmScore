@@ -1,0 +1,15 @@
+
+.profile-details-header{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 0;
+
+}
+
+.profile-details-title{
+    flex-grow: 1;
+    text-align: center;
+}

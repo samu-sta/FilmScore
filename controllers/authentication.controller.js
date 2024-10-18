@@ -4,7 +4,6 @@ import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { get } from "http";
 
 dotenv.config()
 
@@ -29,7 +28,6 @@ async function login(req, res) {
   const result = validateLogin(req.body)
 
   if (!result.success) {
-    console.log(result.error.message)
     return res.status(400).json({ error: JSON.parse(result.error.message) })
   }
 
@@ -62,7 +60,6 @@ async function register(req, res) {
   const result = validateRegister(req.body)
 
   if (!result.success) {
-    console.log(result.error.message)
     return res.status(400).json({ error: JSON.parse(result.error.message) })
   }
 
@@ -102,7 +99,6 @@ async function getProfileDetails(req, res) {
 }
 
 async function putProfileDetails(req, res) {
-  console.log(req.body)
   const token = req.cookies.jwt
   if (!token) {
     return res.status(401).json({ error: "Unauthorized" })
@@ -124,7 +120,6 @@ async function putProfileDetails(req, res) {
 }
 
 async function changePassword (req, res) {
-  console.log(req.body)
   const token = req.cookies.jwt
   if (!token) {
     return res.status(401).json({ error: "Unauthorized" })

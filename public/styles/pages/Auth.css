@@ -1,0 +1,101 @@
+.auth-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: #181818;
+    color: #ccc;
+    height: 100%;
+    padding: 20px;
+    width: 80%;
+}
+
+.auth-title {
+    font-size: 3rem; /* Tamaño grande para el título */
+    margin-bottom: 1rem;
+    height: 150px;
+}
+
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    min-width: 330px;
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    color: #ccc;
+
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    outline: none;
+}
+
+.primary-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f9d342; /* Color de fondo amarillo */
+    color: #111; 
+    font-weight: bold;
+    transition: background-color 0.4s;
+}
+
+.primary-button:hover {
+    background-color: #d4a017;
+}
+
+.auth-link-text{
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.auth-link{
+    color: #f9d342;
+    text-decoration: none;
+    font-weight: bold; 
+    text-decoration: underline;
+    text-underline-offset: 2.5px;
+}
+.error-message {
+    color: #f44336;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+.hidden {
+    display: none;
+}
+
+
+/* Quitar las flechas del input de números */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

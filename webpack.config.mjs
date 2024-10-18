@@ -1,12 +1,13 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import webpack from 'webpack';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default {
   mode: 'development',
-  entry: './src/index.jsx',
+  entry: './src/main.jsx',
   output: {
     path: path.resolve(__dirname, 'public/dist'),
     filename: 'bundle.js'
@@ -26,17 +27,23 @@ export default {
             plugins: ['react-refresh/babel']
           }
         }
-      }
-    ]
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
   },
   plugins: [
-    new ReactRefreshWebpackPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
   ],
   devServer: {
+    hot: true,
     static: {
       directory: path.join(__dirname, 'public'),
     },
-    hot: true,
-    port: 4000
-  }
+    compress: true,
+    port: 4001,
+  },
 };

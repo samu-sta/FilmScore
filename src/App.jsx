@@ -1,47 +1,63 @@
-import React, { useState } from 'react';
-
+import React, {useState, useEffect} from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import '../public/styles/App.css';
+import NotFound from './pages/NotFound.jsx';
+import Home from './pages/Home.jsx';
+import MovieDetails from './components/ContentDetails.jsx';
+import Index from './pages/Index.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import ProfileDetails from './pages/ProfileDetails.jsx';
+import ChangePassword from './pages/ChangePassword.jsx';
 const App = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Aquí puedes manejar la lógica de autenticación
-        console.log('Email:', email);
-        console.log('Password:', password);
-    };
+  const [movies, setMovies] = useState([]);
 
-    return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px' }}>
-                <h2>Login</h2>
-                <h1>Hola</h1>
-                <label>
-                    Email:
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        style={{ marginBottom: '10px', padding: '8px' }}
-                    />
-                </label>
-                <label>
-                    Password:
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        style={{ marginBottom: '10px', padding: '8px' }}
-                    />
-                </label>
-                <button type="submit" style={{ padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', cursor: 'pointer' }}>
-                    Login
-                </button>
-            </form>
-        </div>
-    );
+  useEffect(() => {
+    async function fetchMovies() {
+      try {
+        const res = await fetch('http://localhost:4000/api/movies');
+        const data = await res.json();
+        setMovies(data);
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    }
+    fetchMovies();
+  }
+    , []);
+
+  return (
+    <Router className="app-router">
+      <>
+        <header className='header-app'>
+          <Link to="/home" className="header-title">FilmScore</Link>
+        </header>
+
+        <Routes>
+          <Route path="/changePassword" element={<ChangePassword />} />
+          <Route path="/profile" element={<ProfileDetails />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home movies={movies}/>} />
+          <Route path="/movie/:movieId" element={<MovieDetails movies={movies}/>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <footer className="app-footer">
+          <div className="footer-content">
+            <p>{new Date().getFullYear()} FilmScore. All rights reserved.</p>
+            <nav className="footer-nav">
+              <Link to="#">About</Link>
+              <Link to="#">Contact</Link>
+              <Link to="#">Privacy Policy</Link>
+            </nav>
+          </div>
+        </footer>
+      </>
+    </Router>
+  );
 };
 
 export default App;
