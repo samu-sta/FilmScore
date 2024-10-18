@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../public/styles/pages/ProfileDetails.css';
-import '../../public/styles/pages/ProfileDetails.css';
+import './styles/ProfileDetails.css';
 import Activity from '../components/Activity.jsx';
 import ConfirmationModal from '../components/ConfirmationModal.jsx';
 import { Link, useNavigate } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../public/styles/components/AddReview.css';
+import './styles/AddReview.css';
 
 const AddReview = () => {
 

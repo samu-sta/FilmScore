@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import '../../public/styles/pages/Auth.css';
+import './styles/Auth.css';
 
 import { Link, useNavigate } from 'react-router-dom';
 const Register = () => {

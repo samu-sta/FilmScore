@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../client/public/styles/components/Activity.css';
+import './styles/Activity.css';
 
 const Activity = ({ activityName, date, description }) => {
     return (

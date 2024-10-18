@@ -1,32 +1,30 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-import webpack from 'webpack';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default {
-  mode: 'development',
-  entry: './client/src/main.jsx',
+  entry: './client/src/main.jsx', 
   output: {
-    path: path.resolve(__dirname, 'client/public/dist'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, './client/public/dist'),
+    filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['react-refresh/babel']
-          }
-        }
+          },
+        },
       },
       {
         test: /\.css$/,
@@ -34,16 +32,5 @@ export default {
       },
     ],
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin(),
-  ],
-  devServer: {
-    hot: true,
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
-    compress: true,
-    port: 4001,
-  },
+  mode: 'development',
 };

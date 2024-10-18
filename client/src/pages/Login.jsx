@@ -1,4 +1,4 @@
-import '../../public/styles/pages/Auth.css';
+import './styles/Auth.css';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { COOKIE_NAME } from '../../../constants/constants.js';

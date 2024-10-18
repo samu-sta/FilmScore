@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Review from './Review.jsx';
-import '../../public/styles/components/ContentDetails.css';
+import './styles/ContentDetails.css';
 import NotFound from '../pages/NotFound.jsx';
 import AddReview from './AddReview.jsx';
 import DetailsInfoItem from './DetailsInfoItem.jsx';
