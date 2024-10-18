@@ -1,115 +1,171 @@
 import React, { useEffect, useState } from 'react';
 import '../../public/styles/pages/Auth.css';
 import '../../public/styles/pages/ProfileDetails.css';
+import Activity from '../components/Activity.jsx';
+import ConfirmationModal from '../components/ConfirmationModal.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 const ProfileDetails = () => {
 
-  const navigate = useNavigate();
-  const [error, setError] = React.useState(false);
-  const [profile, setProfile] = useState({
-    login: '',
-    lastName: '',
-    firstName: '',
-    birthYear: '',
-  });
+    const navigate = useNavigate();
+    const [error, setError] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [profile, setProfile] = useState({
+        email: '',
+        login: '',
+        lastName: '',
+        firstName: '',
+        birthYear: '',
+    });
 
-  useEffect(() => {
-    const fetchProfile = async () => {
+    const handleNoModal = () => {
+        setShowModal(false);
+    }
+
+    const handleYesModal = async () => {
+      setShowModal(false);
       try {
-        const res = await fetch('http://localhost:4000/api/profile', {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-        if (!res.ok) {
-          setError('Failed to fetch profile details. Please try again later.');
-          navigate('/home');
-          return;
-        }
-        const data = await res.json();
-        setProfile(data);
+          const res = await fetch('http://localhost:4000/api/profile', {
+              method: 'DELETE',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+          });
+          if (!res.ok) {
+              throw new Error('There was a problem with the fetch operation');
+          }
+          document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          navigate('/');
       } catch (error) {
-        setError('Failed to fetch profile details. Please try again later.');
+          setError('There was a problem with the fetch operation:', error);
       }
+  };
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const res = await fetch('http://localhost:4000/api/profile', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                });
+                if (!res.ok) {
+                    navigate('/home');
+                    return;
+                }
+                const data = await res.json();
+                setProfile(data);
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+            }
+        }
+        fetchProfile();
     }
-    fetchProfile();
-  }
-    , []);
+        , []);
 
-  const handleSubmit = async (event) => {
-    const hasChanged =
-      profile.login !== event.target.login.value ||
-      profile.lastName !== event.target.lastName.value ||
-      profile.firstName !== event.target.firstName.value ||
-      profile.birthYear !== Number(event.target.birthYear.value);
+    const handleSubmit = async (event) => {
+        const hasChanged =
+            profile.login !== event.target.login.value ||
+            profile.lastName !== event.target.lastName.value ||
+            profile.firstName !== event.target.firstName.value ||
+            profile.birthYear !== Number(event.target.birthYear.value);
 
-    if (!hasChanged) {
-      navigate('/home');
-      return;
+        if (!hasChanged) {
+            navigate('/home');
+            return;
+        }
+        event.preventDefault();
+        try {
+            const res = await fetch('http://localhost:4000/api/profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    login: event.target.login.value,
+                    lastName: event.target.lastName.value,
+                    firstName: event.target.firstName.value,
+                    birthYear: Number(event.target.birthYear.value),
+                }),
+                credentials: 'include',
+            });
+
+            if (!res.ok) {
+                setError(true);
+                return;
+            }
+            console.log('Profile updated');
+            setError(false);
+            const data = await res.json();
+            setProfile(data);
+            navigate('/home');
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
     }
-    event.preventDefault();
-    try {
-      const res = await fetch('http://localhost:4000/api/profile', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          login: event.target.login.value,
-          lastName: event.target.lastName.value,
-          firstName: event.target.firstName.value,
-          birthYear: Number(event.target.birthYear.value),
-        }),
-        credentials: 'include',
-      });
-
-      if (!res.ok) {
-        setError(true);
-        return;
-      }
-      setError(false);
-      const data = await res.json();
-      setProfile(data);
-      navigate('/home');
-    } catch (error) {
-      setError('There was a problem with the fetch operation. Please try again later.');
-    }
-  }
 
 
 
 
-  return (
-    <main className="auth-main">
-      <header className='profile-details-header'>
-        <Link to="/home" className="back-link">← Back Home</Link>
-        <h1 className='auth-title profile-details-title'>Profile Details</h1>
-      </header>
-      <main className='auth-main'>
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <article className="form-group">
-            <label htmlFor="login">Login</label>
-            <input type="text" id="login" name="login" required defaultValue={profile?.login} />
-          </article>
-          <article className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" required defaultValue={profile?.lastName} />
-          </article>
-          <article className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" required defaultValue={profile?.firstName} />
-          </article>
-          <article className="form-group">
-            <label htmlFor="birthYear">Year of Birth</label>
-            <input type="number" id="birthYear" name="birthYear" required defaultValue={profile?.birthYear} />
-          </article>
-          <button type="submit" className="primary-button">Confirm</button>
-          <p className={`${error ? 'error-message' : 'hidden'}`}>Email is already in use</p>
-        </form>
-      </main>
-    </main>
-  );
+    return (
+        <main className="auth-main">
+            <ConfirmationModal
+                title="Delete Account"
+                message="Are you sure you want to delete your account?"
+                show={showModal}
+                onClose={handleNoModal}
+                onConfirm={handleYesModal}
+            />
+            <header className='profile-details-header'>
+                <Link to="/home" className="back-link">← Back Home</Link>
+                <h1 className='auth-title profile-details-title'>Profile Details</h1>
+                <button 
+                    className='delete-account-button'
+                    onClick={() => setShowModal(true)}
+                    >Delete Acount</button>
+            </header>
+            <main className='auth-main profile-details-main'>
+                <div className='profile-details-form-div'>
+                    <form className="auth-form profile-details-form" onSubmit={handleSubmit}>
+                        <article className="form-group">
+                            <label htmlFor="login">Login</label>
+                            <input type="text" id="login" name="login" required defaultValue={profile?.login} />
+                        </article>
+                        <article className="form-group">
+                            <label htmlFor="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required defaultValue={profile?.lastName} />
+                        </article>
+                        <article className="form-group">
+                            <label htmlFor="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required defaultValue={profile?.firstName} />
+                        </article>
+                        <article className="form-group">
+                            <label htmlFor="birthYear">Year of Birth</label>
+                            <input type="number" id="birthYear" name="birthYear" required defaultValue={profile?.birthYear} />
+                        </article>
+                        <button type="submit" className="primary-button">Confirm</button>
+
+                        <p className={`${error ? 'error-message' : 'hidden'}`}>Email is already in use</p>
+                    </form>
+                </div>
+
+                <section className='profile-details-activities'>
+                    <h2>Last Activities</h2>
+                    <ul className='profile-details-activities-list'>
+                        <li> <Activity activityName='Updated profile' date='2021-09-10' description='Changed profile details' /> </li>
+                        <li> <Activity activityName='Logged out' date='2021-09-15' description='Logged out from the system' /> </li>
+                        <li> <Activity activityName='Logged in' date='2021-09-01' description='Logged in for the first time' /> </li>
+                    </ul>
+                </section>
+
+
+
+
+            </main>
+
+        </main>
+    );
 };
 
 export default ProfileDetails;

@@ -1,10 +1,16 @@
 import '../../public/styles/pages/Auth.css';
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 const ChangePassword = () => {
 
   const navigate = useNavigate();
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if ( ! document.cookie.includes('jwt')) {
+      navigate('/home');
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

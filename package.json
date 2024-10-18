@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "webpack --config webpack.config.mjs",
-    "start": "node ./server/main.js"
+    "start": "node --watch ./server/main.js"
   },
   "keywords": [],
   "author": "",

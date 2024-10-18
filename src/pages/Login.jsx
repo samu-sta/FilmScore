@@ -54,7 +54,7 @@ const Login = () => {
             <input type="password" id="password" name="password" required />
           </article>
           <button type="submit" className="primary-button">Log in</button>
-          <p className={`${error ? 'error-message' : 'hidden'}`}> Invalid email or password</p>
+          <p className={`${error ? 'error-message' : 'hidden'}`}>Email or password is incorrect</p>
           <p className='auth-link-text'>Don't have an account? </p>
           <Link className='auth-link'to='/register'>Sign Up</Link>
         </form>

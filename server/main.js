@@ -28,6 +28,7 @@ app.post('/api/login', authentication.login);
 app.post('/api/register', authentication.register);
 app.get('/api/profile', authentication.getProfileDetails);
 app.put('/api/profile', authentication.putProfileDetails);
+app.delete('/api/profile', authentication.deleteProfile);
 app.put('/api/profile/password', authentication.changePassword);
 
 app.get('*', (req, res) => {

@@ -138,11 +138,32 @@ async function changePassword (req, res) {
   }
 }
 
+async function deleteProfile(req, res) {
+  const token = req.cookies.jwt
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized" })
+  }
+
+  try {
+    const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
+    const user = users.find(user => user.email === decoded.email)
+    if (!user) {
+      return res.status(400).json({ error: "User not found" })
+    }
+
+    users.splice(users.indexOf(user), 1)
+    return res.status(200).send({status: "User deleted"})
+  } catch (error) {
+    return res.status(400).json({ error: "Invalid token" })
+  }
+}
+
 export const methods = {
   login,
   register,
   getMovies,
   getProfileDetails,
   putProfileDetails,
-  changePassword
+  changePassword,
+  deleteProfile
 }

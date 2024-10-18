@@ -1,15 +1,64 @@
 
-.profile-details-header{
+.profile-details-main{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+
+}
+
+.profile-details-form-div{
+    display: flex;
+    justify-content: center;
+}
+
+.profile-details-form{
+    width: 360px;
+}
+
+
+.delete-account-button{
+    background-color: inherit;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #f44336;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.profile-details-activities{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    align-items: center;
+    padding: 10px;
+}
+
+.profile-details-header{
+    display: flex;
     align-items: center;
     justify-content: space-around;
+    width: 80%;
     padding: 10px 0;
-
 }
 
 .profile-details-title{
     flex-grow: 1;
     text-align: center;
+}
+
+.profile-details-activities-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.profile-details-activities-list li{
+    width: 100%;
+    list-style-type: none;
 }

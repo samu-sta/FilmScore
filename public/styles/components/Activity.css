@@ -1,0 +1,23 @@
+.activity {
+    border: 1px solid #333;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.activity h2 {
+    font-size: 20px;
+    color: #aaa;
+}
+
+.activity p {
+    font-size: 14px;
+    margin: 4px 0;
+    color: #666;
+}
