@@ -4,26 +4,25 @@ import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { promises as fs } from 'fs';
 import path from 'path';
-
+import { TIME_EXPIRATION, COOKIE_NAME } from "../constants/constants.js";
 dotenv.config()
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const moviesPath = path.join(__dirname, '../data/movies.json');
 
+
+
 async function getMovies(req, res) {
-  const data = await fs.readFile(moviesPath, 'utf-8');
-  return res.status(200).send(data)
-}
-const users = [
-  {
-    email: "samuelfelipelorente@gmail.com",
-    password: "$2a$05$LUohyBmZzysOGHzWHeYi0.1xkcXB2BgjFtQapJyTffad9TbOYg.ma",
-    login: "yourlogin",
-    lastName: "Doe",
-    firstName: "John",
-    birthYear: 1990
+  try {
+    const data = await fs.readFile(moviesPath, 'utf-8');
+    return res.status(200).json(JSON.parse(data));
+  } catch (error) {
+    console.error('Error reading movies.json:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
-]
+}
+
+const users = []
 async function login(req, res) {
   const result = validateLogin(req.body)
 
@@ -42,17 +41,15 @@ async function login(req, res) {
   }
 
   const token = jsonwebtoken.sign({ email: user.email }, process.env.JWT_SECRET
-    , { expiresIn: '1h' }
+    , { expiresIn: TIME_EXPIRATION.ACCESS_TOKEN }
   )
   const cookieOptions = {
-    expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 day
-    path: '/', // La cookie es válida para todo el dominio // Controla si la cookie se envía con solicitudes de sitios cruzados
+    expires: new Date(Date.now() + TIME_EXPIRATION.COOKIE_EXPIRATION),
+    path: '/', 
   };
 
-  res.cookie('jwt', token, cookieOptions)
+  res.cookie(COOKIE_NAME, token, cookieOptions)
   return res.status(200).send({status: "User logged in"})
-
-
 }
 
 async function register(req, res) {

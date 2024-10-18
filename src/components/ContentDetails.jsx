@@ -8,7 +8,6 @@ import DetailsInfoItem from './DetailsInfoItem.jsx';
 
 const ContentDetails = ({movies}) => {
   const { movieId } = useParams();
-  //pasar por parametro las movies
   const movie = movies.find(m => m.id === movieId);
 
   if (!movie) {

@@ -5,8 +5,8 @@ import cookieParser from 'cookie-parser';
 // fix path issue
 import { fileURLToPath } from 'url';
 import {methods as authentication} from '../controllers/authentication.controller.js';
+import { PORT } from '../constants/constants.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 
 const app = express();
 app.use(express.json());
@@ -18,7 +18,6 @@ app.use(cors({
 }));
 app.use(express.static(path.join(__dirname, '../public')));
 
-const PORT = 4000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
