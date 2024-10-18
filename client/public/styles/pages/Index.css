@@ -3,22 +3,22 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background-color: #181818; /* Fondo oscuro */
-    color: #ccc; /* Color del texto */
-    height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    background-color: #181818; 
+    color: #ccc;
+    height: 100vh;
     padding: 20px;
     width: 80%;
 }
 
 .index-title {
-    font-size: 3rem; /* Tamaño grande para el título */
+    font-size: 3rem;
     margin-bottom: 1rem;
 }
 
 
 
 .index-principal-button:hover {
-    background-color: #d4a017; /* Color de fondo amarillo menos chillón */
+    background-color: #d4a017;
 }
 
 .index-buttons-section {
@@ -51,7 +51,7 @@
     text-decoration: none;
     font-weight: bold;
     border: none;
-    color: #111; /* Color del texto blanco */
-    background-color: #f9d342; /* Color de fondo amarillo más chillón */
-    transition: background-color 0.3s ease; /* Transición suave para el fondo */
+    color: #111;
+    background-color: #f9d342;
+    transition: background-color 0.3s ease;
 }

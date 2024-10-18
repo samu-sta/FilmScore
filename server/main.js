@@ -4,7 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 // fix path issue
 import { fileURLToPath } from 'url';
-import {methods as authentication} from '../controllers/authentication.controller.js';
+import {methods as authentication} from './controllers/authentication.controller.js';
 import { PORT } from '../constants/constants.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -16,7 +16,7 @@ app.use(cors({
     credentials: true,
     origin: 'http://localhost:5173'
 }));
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

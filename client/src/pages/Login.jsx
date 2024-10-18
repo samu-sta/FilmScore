@@ -1,6 +1,7 @@
 import '../../public/styles/pages/Auth.css';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { COOKIE_NAME } from '../../../constants/constants.js';
 const Login = () => {
 
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Login = () => {
       credentials: 'include',
     });
 
-    if (!res.ok) {
+    if ( ! res.ok) {
       setError(true);
       return;
     }
@@ -28,13 +29,14 @@ const Login = () => {
     await res.json();
     const cookies = res.headers.get('set-cookie');
     if (cookies) {
-    } else {
+    } 
+    else {
     }
     navigate('/home');
   };
 
   useEffect(() => {
-    if (document.cookie.includes('jwt')) {
+    if (document.cookie.includes(COOKIE_NAME)) {
       navigate('/home');
     }
   }

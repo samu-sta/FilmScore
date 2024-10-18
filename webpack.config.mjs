@@ -7,9 +7,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default {
   mode: 'development',
-  entry: './src/main.jsx',
+  entry: './client/src/main.jsx',
   output: {
-    path: path.resolve(__dirname, 'public/dist'),
+    path: path.resolve(__dirname, 'client/public/dist'),
     filename: 'bundle.js'
   },
   resolve: {

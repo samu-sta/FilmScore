@@ -11,7 +11,7 @@
 }
 
 .auth-title {
-    font-size: 3rem; /* Tamaño grande para el título */
+    font-size: 3rem;
     margin-bottom: 1rem;
 }
 
@@ -58,7 +58,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #f9d342; /* Color de fondo amarillo */
+    background-color: #f9d342;
     color: #111; 
     font-weight: bold;
     transition: background-color 0.4s;
@@ -90,8 +90,6 @@
     display: none;
 }
 
-
-/* Quitar las flechas del input de números */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;

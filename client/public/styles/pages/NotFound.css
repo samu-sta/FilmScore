@@ -4,28 +4,28 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #ccc; /* Color del texto */
-    height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    color: #ccc;
+    height: 100vh; 
     padding: 20px;
 }
 
 .not-found h1 {
-    font-size: 3rem; /* Tamaño grande para el título */
+    font-size: 3rem;
     margin-bottom: 1rem;
 }
 
 .not-found p {
-    font-size: 1.5rem; /* Tamaño mediano para el texto */
+    font-size: 1.5rem;
     margin-bottom: 2rem;
 }
 
 .notfound-gohome-button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #d4a017; /* Color de fondo amarillo menos chillón */
+    background-color: #d4a017;
     border: 1px solid #d4a017;
     border-radius: 5px;
-    color: #111; /* Color del texto blanco */
+    color: #111;
     font-weight: 700;
     font-size: 16px;
     text-decoration: none;
@@ -34,5 +34,5 @@
 }
 
 .notfound-gohome-button:hover {
-    background-color: #f9d342; /* Color de fondo amarillo más chillón */
+    background-color: #f9d342;
 }

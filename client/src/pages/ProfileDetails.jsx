@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import '../../public/styles/pages/Auth.css';
+import '../../public/styles/pages/ProfileDetails.css';
 import '../../public/styles/pages/ProfileDetails.css';
 import Activity from '../components/Activity.jsx';
 import ConfirmationModal from '../components/ConfirmationModal.jsx';
 import { Link, useNavigate } from 'react-router-dom';
+import { COOKIE_NAME } from '../../../constants/constants.js';
 const ProfileDetails = () => {
 
     const navigate = useNavigate();
@@ -34,7 +35,7 @@ const ProfileDetails = () => {
           if (!res.ok) {
               throw new Error('There was a problem with the fetch operation');
           }
-          document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          document.cookie = `${COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
           navigate('/');
       } catch (error) {
           setError('There was a problem with the fetch operation:', error);
@@ -57,7 +58,7 @@ const ProfileDetails = () => {
                 const data = await res.json();
                 setProfile(data);
             } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
+                setError('There was a problem with the fetch operation:', error);
             }
         }
         fetchProfile();
