@@ -4,10 +4,11 @@ import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { TIME_EXPIRATION, COOKIE_NAME } from "../../constants/constants.js";
 dotenv.config()
-
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const moviesPath = path.join(__dirname, '../data/movies.json');
 
 

@@ -32,5 +32,5 @@ app.delete('/api/profile', authentication.deleteProfile);
 app.put('/api/profile/password', authentication.changePassword);
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
   });
