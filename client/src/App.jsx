@@ -10,6 +10,7 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import ProfileDetails from './pages/ProfileDetails.jsx';
 import ChangePassword from './pages/ChangePassword.jsx';
+import { BASE_URL, API_URLS, CLIENT_URLS, ERROR_MESSAGES } from '../../constants/constants.js';
 const App = () => {
 
   const [movies, setMovies] = useState([]);
@@ -17,11 +18,11 @@ const App = () => {
   useEffect(() => {
     async function fetchMovies() {
       try {
-        const res = await fetch('http://localhost:4000/api/movies');
+        const res = await fetch(`${BASE_URL}${API_URLS.MOVIES}`);
         const data = await res.json();
         setMovies(data);
       } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
+        console.Error(ERROR_MESSAGES.FETCH_ERROR, error);
       }
     }
     fetchMovies();
@@ -32,18 +33,18 @@ const App = () => {
     <Router className="app-router">
       <>
         <header className='header-app'>
-          <Link to="/home" className="header-title">FilmScore</Link>
+          <Link to={CLIENT_URLS.HOME} className="header-title">FilmScore</Link>
         </header>
 
         <Routes>
-          <Route path="/changePassword" element={<ChangePassword />} />
-          <Route path="/profile" element={<ProfileDetails />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home movies={movies}/>} />
-          <Route path="/movie/:movieId" element={<MovieDetails movies={movies}/>} />
-          <Route path="*" element={<NotFound />} />
+          <Route path={CLIENT_URLS.CHANGE_PASSWORD} element={<ChangePassword />} />
+          <Route path={CLIENT_URLS.PROFILE} element={<ProfileDetails />} />
+          <Route path={CLIENT_URLS.REGISTER} element={<Register />} />
+          <Route path={CLIENT_URLS.INDEX} element={<Index />} />
+          <Route path={CLIENT_URLS.LOGIN} element={<Login />} />
+          <Route path={CLIENT_URLS.HOME} element={<Home movies={movies}/>} />
+          <Route path={CLIENT_URLS.MOVIE} element={<MovieDetails movies={movies}/>} />
+          <Route path={CLIENT_URLS.NOT_FOUND} element={<NotFound />} />
         </Routes>
         <footer className="app-footer">
           <div className="footer-content">

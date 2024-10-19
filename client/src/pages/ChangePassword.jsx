@@ -1,14 +1,16 @@
 import './styles/Auth.css';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { COOKIE_NAME, API_URLS, BASE_URL, CLIENT_URLS } from '../../../constants/constants.js';
+
 const ChangePassword = () => {
 
   const navigate = useNavigate();
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if ( ! document.cookie.includes('jwt')) {
-      navigate('/home');
+    if ( ! document.cookie.includes(COOKIE_NAME)) {
+      navigate(CLIENT_URLS.HOME);
     }
   }, []);
 
@@ -22,7 +24,7 @@ const ChangePassword = () => {
     }
     setError(false);
 
-    await fetch('http://localhost:4000/api/profile/password', {
+    await fetch(`${BASE_URL}${API_URLS.PASSWORD}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +35,7 @@ const ChangePassword = () => {
       credentials: 'include',
     });
 
-    navigate('/home');
+    navigate(CLIENT_URLS.HOME);
 
   }
 
@@ -41,7 +43,7 @@ const ChangePassword = () => {
   return (
     <main className="auth-main">
       <header className='profile-details-header'>
-                <Link to="/home" className="back-link">← Back Home</Link>
+                <Link to={CLIENT_URLS.HOME} className="back-link">← Back Home</Link>
                 <h1 className='auth-title profile-details-title'>Change password</h1>
             </header>
       <main className='auth-main'>

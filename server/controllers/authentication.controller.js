@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { TIME_EXPIRATION, COOKIE_NAME } from "../../constants/constants.js";
+import { TIME_EXPIRATION, COOKIE_NAME, ERROR_MESSAGES, SUCCESS_MESSAGES } from "../../constants/constants.js";
 dotenv.config()
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +19,7 @@ async function getMovies(req, res) {
     return res.status(200).json(JSON.parse(data));
   } catch (error) {
     console.error('Error reading movies.json:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR });
   }
 }
 
@@ -33,12 +33,12 @@ async function login(req, res) {
 
   const user = users.find(user => user.email === req.body.email)
   if (!user) {
-    return res.status(400).json({ error: "User not found" })
+    return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
   }
 
   const validPassword = await bcryptjs.compare(req.body.password, user.password)
   if (!validPassword) {
-    return res.status(400).json({ error: "Invalid password" })
+    return res.status(400).json({ error: ERROR_MESSAGES.INVALID_PASSWORD })
   }
 
   const token = jsonwebtoken.sign({ email: user.email }, process.env.JWT_SECRET
@@ -50,7 +50,7 @@ async function login(req, res) {
   };
 
   res.cookie(COOKIE_NAME, token, cookieOptions)
-  return res.status(200).send({status: "User logged in"})
+  return res.status(200).send({status: SUCCESS_MESSAGES.LOGIN_SUCCESS})
 }
 
 async function register(req, res) {
@@ -63,7 +63,7 @@ async function register(req, res) {
 
   const userRegistered = users.find(user => user.email === req.body.email)
   if (userRegistered) {
-    return res.status(400).json({ error: "User already registered" })
+    return res.status(400).json({ error: ERROR_MESSAGES.USER_ALREADY_REGISTERED })
   }
 
   const salt = await bcryptjs.genSalt(5);
@@ -73,89 +73,89 @@ async function register(req, res) {
     password: hashedPassword
   }
   users.push(user)
-  return res.status(201).send({status: "User registered"})
+  return res.status(201).send({status: SUCCESS_MESSAGES.USER_CREATED})
 }
 
 async function getProfileDetails(req, res) {
   const token = req.cookies.jwt
   if (!token) {
-    return res.status(401).json({ error: "Unauthorized" })
+    return res.status(401).json({ error:  ERROR_MESSAGES.UNAUTHORIZED})
   }
 
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
     const user = users.find(user => user.email === decoded.email)
     if (!user) {
-      return res.status(400).json({ error: "User not found" })
+      return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
     }
 
     const { password, email, ...userDetails } = user;
     return res.status(200).send(userDetails)
   } catch (error) {
-    return res.status(400).json({ error: "Invalid token" })
+    return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })
   }
 }
 
 async function putProfileDetails(req, res) {
   const token = req.cookies.jwt
   if (!token) {
-    return res.status(401).json({ error: "Unauthorized" })
+    return res.status(401).json({ error: ERROR_MESSAGES.UNAUTHORIZED })
   }
 
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
     const user = users.find(user => user.email === decoded.email)
     if (!user) {
-      return res.status(400).json({ error: "User not found" })
+      return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
     }
 
     const { password, email, ...userDetails } = user;
     users[users.indexOf(user)] = { ...user, ...req.body }
     return res.status(200).send(userDetails)
   } catch (error) {
-    return res.status(400).json({ error: "Invalid token" })
+    return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })
   }
 }
 
 async function changePassword (req, res) {
   const token = req.cookies.jwt
   if (!token) {
-    return res.status(401).json({ error: "Unauthorized" })
+    return res.status(401).json({ error: ERROR_MESSAGES.UNAUTHORIZED })
   }
 
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
     const user = users.find(user => user.email === decoded.email)
     if (!user) {
-      return res.status(400).json({ error: "User not found" })
+      return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
     }
 
     const salt = await bcryptjs.genSalt(5);
     const hashedPassword = await bcryptjs.hash(req.body.password, salt);
     users[users.indexOf(user)] = { ...user, password: hashedPassword }
-    return res.status(200).send({status: "Password changed"})
+    return res.status(200).send({status: SUCCESS_MESSAGES.PASSWORD_CHANGED})
   } catch (error) {
-    return res.status(400).json({ error: "Invalid token" })
+    return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })
   }
 }
 
 async function deleteProfile(req, res) {
   const token = req.cookies.jwt
   if (!token) {
-    return res.status(401).json({ error: "Unauthorized" })
+    return res.status(401).json({ error: ERROR_MESSAGES.UNAUTHORIZED })
   }
 
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
     const user = users.find(user => user.email === decoded.email)
     if (!user) {
-      return res.status(400).json({ error: "User not found" })
+      return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
     }
 
     users.splice(users.indexOf(user), 1)
-    return res.status(200).send({status: "User deleted"})
+    return res.status(200).send({status: SUCCESS_MESSAGES.USER_DELETED})
   } catch (error) {
-    return res.status(400).json({ error: "Invalid token" })
+    return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })
   }
 }
 

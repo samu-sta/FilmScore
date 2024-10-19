@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './styles/Auth.css';
+import { COOKIE_NAME, API_URLS, BASE_URL, CLIENT_URLS, ERROR_MESSAGES } from '../../../constants/constants.js'
 
 import { Link, useNavigate } from 'react-router-dom';
 const Register = () => {
@@ -10,7 +11,7 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const res = await fetch('http://localhost:4000/api/register', {
+      const res = await fetch(`${BASE_URL}${API_URLS.REGISTER}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,15 +33,15 @@ const Register = () => {
       setError(false);
 
       const data = await res.json();
-      navigate('/login');
+      navigate(CLIENT_URLS.LOGIN);
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
+      console.error(ERROR_MESSAGES.FETCH_ERROR, error);
     }
   };
 
   useEffect(() => {
-    if (document.cookie.includes('jwt')) {
-      navigate('/home');
+    if (document.cookie.includes(COOKIE_NAME)) {
+      navigate(CLIENT_URLS.HOME);
     }
   }
     , []);
@@ -76,7 +77,7 @@ const Register = () => {
           </article>
           <button type="submit" className="primary-button">Sign Up</button>
           <p className={`${error ? 'error-message' : 'hidden'}`}>Email is already in use</p>
-          <p className='auth-link-text'>Already have an account? <Link className='auth-link' to='/login'>Log in</Link></p>
+          <p className='auth-link-text'>Already have an account? <Link className='auth-link' to={CLIENT_URLS.LOGIN}>Log in</Link></p>
         </form>
 
       </main>

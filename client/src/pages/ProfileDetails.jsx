@@ -3,7 +3,7 @@ import './styles/ProfileDetails.css';
 import Activity from '../components/Activity.jsx';
 import ConfirmationModal from '../components/ConfirmationModal.jsx';
 import { Link, useNavigate } from 'react-router-dom';
-import { COOKIE_NAME } from '../../../constants/constants.js';
+import { COOKIE_NAME, BASE_URL, API_URLS, CLIENT_URLS, ERROR_MESSAGES } from '../../../constants/constants.js';
 const ProfileDetails = () => {
 
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ const ProfileDetails = () => {
     const handleYesModal = async () => {
       setShowModal(false);
       try {
-          const res = await fetch('http://localhost:4000/api/profile', {
+          const res = await fetch(`${BASE_URL}${API_URLS.PROFILE}`, {
               method: 'DELETE',
               headers: {
                   'Content-Type': 'application/json',
@@ -32,19 +32,19 @@ const ProfileDetails = () => {
               credentials: 'include',
           });
           if (!res.ok) {
-              throw new Error('There was a problem with the fetch operation');
+              throw new Error(ERROR_MESSAGES.FETCH_ERROR);
           }
           document.cookie = `${COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
           navigate('/');
       } catch (error) {
-          setError('There was a problem with the fetch operation:', error);
+          console.error(ERROR_MESSAGES.FETCH_ERROR, error);
       }
   };
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await fetch('http://localhost:4000/api/profile', {
+                const res = await fetch(`${BASE_URL}${API_URLS.PROFILE}`, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -57,7 +57,7 @@ const ProfileDetails = () => {
                 const data = await res.json();
                 setProfile(data);
             } catch (error) {
-                setError('There was a problem with the fetch operation:', error);
+                console.error(ERROR_MESSAGES.FETCH_ERROR, error);
             }
         }
         fetchProfile();
@@ -72,12 +72,12 @@ const ProfileDetails = () => {
             profile.birthYear !== Number(event.target.birthYear.value);
 
         if (!hasChanged) {
-            navigate('/home');
+            navigate(CLIENT_URLS.HOME);
             return;
         }
         event.preventDefault();
         try {
-            const res = await fetch('http://localhost:4000/api/profile', {
+            const res = await fetch(`${BASE_URL}${API_URLS.PROFILE}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,13 +95,12 @@ const ProfileDetails = () => {
                 setError(true);
                 return;
             }
-            console.log('Profile updated');
             setError(false);
             const data = await res.json();
             setProfile(data);
-            navigate('/home');
+            navigate(CLIENT_URLS.HOME);
         } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
+            console.error(ERROR_MESSAGES.FETCH_ERROR, error);
         }
     }
 
@@ -118,7 +117,7 @@ const ProfileDetails = () => {
                 onConfirm={handleYesModal}
             />
             <header className='profile-details-header'>
-                <Link to="/home" className="back-link">← Back Home</Link>
+                <Link to={CLIENT_URLS.HOME} className="back-link">← Back Home</Link>
                 <h1 className='auth-title profile-details-title'>Profile Details</h1>
                 <button 
                     className='delete-account-button'

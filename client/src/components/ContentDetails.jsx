@@ -5,6 +5,7 @@ import './styles/ContentDetails.css';
 import NotFound from '../pages/NotFound.jsx';
 import AddReview from './AddReview.jsx';
 import DetailsInfoItem from './DetailsInfoItem.jsx';
+import { COOKIE_NAME, CLIENT_URLS } from '../../../constants/constants.js';
 
 const ContentDetails = ({movies}) => {
   const { movieId } = useParams();
@@ -17,7 +18,7 @@ const ContentDetails = ({movies}) => {
   return (
     <section className="content-details">
       <header className='content-details-header'>
-        <Link to="/home" className="back-link">← Back Home</Link>
+        <Link to={CLIENT_URLS.HOME} className="back-link">← Back Home</Link>
         <h1 className='content-details-title'>{movie.title}</h1>
       </header>
       <main className='content-details-main'>
@@ -40,9 +41,11 @@ const ContentDetails = ({movies}) => {
       <section className="content-details-reviews">
         <h2 className='reviews-title'>Reviews</h2>
         <ul className='reviews-list'>
+          {document.cookie.includes(COOKIE_NAME) && (
           <li className="reviews-list-item">
             <AddReview />
           </li>
+          )}
           {movie.reviews && movie.reviews.length > 0 && (
             movie.reviews.map((review, index) => (
               <li className="reviews-list-item" key={index}>
