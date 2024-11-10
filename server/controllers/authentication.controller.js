@@ -134,14 +134,14 @@ async function changePassword (req, res) {
 
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
-    const user = users.find(user => user.email === decoded.email)
+    const user = await UserDAO.getUserByEmail(decoded.email)
     if (!user) {
       return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
     }
 
     const salt = await bcryptjs.genSalt(5);
     const hashedPassword = await bcryptjs.hash(req.body.password, salt);
-    users[users.indexOf(user)] = { ...user, password: hashedPassword }
+    await UserDAO.updatePassword({ email: user.email, password: hashedPassword })
     return res.status(200).send({status: SUCCESS_MESSAGES.PASSWORD_CHANGED})
   } catch (error) {
     return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })

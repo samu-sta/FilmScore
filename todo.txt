@@ -1,2 +1,2 @@
 [ ]  cerrar interfaz cuando acaba la cookie
-[ ]  que funcione update user
+[ ]  poner las PK de content un string

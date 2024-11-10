@@ -48,9 +48,22 @@ export class UserDAO {
         user.email
     ];
 
-    console.log(query);
-    console.log(values);
-    
+    const result = await pool.query(query, values);
+    return result.rowCount > 0;
+  }
+
+  static async updatePassword(user) {
+    const query = `
+        UPDATE model."User" 
+        SET password = $1
+        WHERE email = $2
+        RETURNING *;
+    `;
+    const values = [
+        user.password,
+        user.email
+    ];
+
     const result = await pool.query(query, values);
     return result.rowCount > 0;
   }
