@@ -36,7 +36,7 @@ export const CLIENT_URLS = {
     REGISTER: '/register',
     PROFILE: '/profile',
     CHANGE_PASSWORD: '/changePassword',
-    MOVIE: '/movie/:movieId',
+    MOVIE: '/movie/:id',
     NOT_FOUND: '*',
     INDEX: '/'
 }

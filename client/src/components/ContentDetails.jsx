@@ -8,8 +8,10 @@ import DetailsInfoItem from './DetailsInfoItem.jsx';
 import { COOKIE_NAME, CLIENT_URLS } from '../../../constants/constants.js';
 
 const ContentDetails = ({movies}) => {
-  const { movieId } = useParams();
-  const movie = movies.find(m => m.id === movieId);
+  const { id } = useParams();
+  console.log(movies);
+  const movie = movies.find(m => m.id == id);
+
 
   if (!movie) {
     return <NotFound />;
