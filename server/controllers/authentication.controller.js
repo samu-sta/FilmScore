@@ -2,11 +2,15 @@ import { validateLogin, validateRegister } from "../schemas/users.js";
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { TIME_EXPIRATION, COOKIE_NAME, ERROR_MESSAGES, SUCCESS_MESSAGES } from "../../constants/constants.js";
 dotenv.config()
+import { ContentDAO } from "../dao/ContentDAO.js";
+import { UserDAO } from "../dao/UserDAO.js";
+import { ReviewDAO } from "../dao/ReviewDAO.js";
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const moviesPath = path.join(__dirname, '../data/movies.json');
@@ -15,15 +19,14 @@ const moviesPath = path.join(__dirname, '../data/movies.json');
 
 async function getMovies(req, res) {
   try {
-    const data = await fs.readFile(moviesPath, 'utf-8');
-    return res.status(200).json(JSON.parse(data));
+    const movies = await ContentDAO.getAllContent();
+    return res.status(200).json(movies);
   } catch (error) {
     console.error('Error reading movies.json:', error);
     return res.status(500).json({ error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR });
   }
 }
 
-const users = []
 async function login(req, res) {
   const result = validateLogin(req.body)
 
@@ -31,7 +34,7 @@ async function login(req, res) {
     return res.status(400).json({ error: JSON.parse(result.error.message) })
   }
 
-  const user = users.find(user => user.email === req.body.email)
+  const user = await UserDAO.getUserByEmail(req.body.email)
   if (!user) {
     return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
   }
@@ -61,7 +64,7 @@ async function register(req, res) {
     return res.status(400).json({ error: JSON.parse(result.error.message) })
   }
 
-  const userRegistered = users.find(user => user.email === req.body.email)
+  const userRegistered = await UserDAO.getUserByEmail(req.body.email)
   if (userRegistered) {
     return res.status(400).json({ error: ERROR_MESSAGES.USER_ALREADY_REGISTERED })
   }
@@ -72,7 +75,7 @@ async function register(req, res) {
     ...req.body,
     password: hashedPassword
   }
-  users.push(user)
+  await UserDAO.createUser(user)
   return res.status(201).send({status: SUCCESS_MESSAGES.USER_CREATED})
 }
 
@@ -84,7 +87,7 @@ async function getProfileDetails(req, res) {
 
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
-    const user = users.find(user => user.email === decoded.email)
+    const user = await UserDAO.getUserByEmail(decoded.email)
     if (!user) {
       return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
     }
@@ -104,13 +107,19 @@ async function putProfileDetails(req, res) {
 
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
-    const user = users.find(user => user.email === decoded.email)
+    const user = await UserDAO.getUserByEmail(decoded.email)
+    console.log(user)
     if (!user) {
       return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
     }
 
-    const { password, email, ...userDetails } = user;
-    users[users.indexOf(user)] = { ...user, ...req.body }
+    const { password, ...userDetails } = user;
+    const updatedUser = {
+      ...userDetails,
+      ...req.body
+    }
+    console.log(updatedUser)
+    await UserDAO.updateUser(updatedUser)
     return res.status(200).send(userDetails)
   } catch (error) {
     return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })
@@ -147,12 +156,12 @@ async function deleteProfile(req, res) {
 
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
-    const user = users.find(user => user.email === decoded.email)
+    const user = await UserDAO.getUserByEmail(decoded.email)
     if (!user) {
       return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
     }
 
-    users.splice(users.indexOf(user), 1)
+    await UserDAO.deleteUser(user.email)
     return res.status(200).send({status: SUCCESS_MESSAGES.USER_DELETED})
   } catch (error) {
     return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })

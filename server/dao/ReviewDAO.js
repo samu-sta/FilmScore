@@ -1,0 +1,37 @@
+import pool from '../config/db.js';
+import Review from '../models/Review.js';
+
+export class ReviewDAO {
+  static async getAllReviews() {
+    const { rows } = await pool.query('SELECT * FROM model."Review"');
+    return rows.map(row => new Review(row.id, row.author, row.rate, row.content, row.User_fk, row.Content_fkey));
+  }
+
+  static async getReviewById(id) {
+    const { rows } = await pool.query('SELECT * FROM model."Review" WHERE id = $1', [id]);
+    if (rows.length) {
+      const { author, rate, content, User_fk, Content_fkey } = rows[0];
+      return new Review(id, author, rate, content, User_fk, Content_fkey);
+    }
+    return null;
+  }
+
+  static async getReviewByContentId(contentId) {
+    const { rows } = await pool.query('SELECT * FROM model."Review" WHERE "Content_fkey" = $1', [contentId]);
+    return rows.map(row => new Review(row.id, row.author, row.rate, row.content, row.User_fk, row.Content_fkey));
+  }
+
+  static async createReview(review) {
+    const { id, author, rate, content, userFk, contentFk } = review;
+    const query = `
+      INSERT INTO model."Review" (id, author, rate, content, "User_fk", "Content_fkey")
+      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+    const { rows } = await pool.query(query, [id, author, rate, content, userFk, contentFk]);
+    return new Review(...Object.values(rows[0]));
+  }
+
+  static async deleteReview(id) {
+    const { rowCount } = await pool.query('DELETE FROM model."Review" WHERE id = $1', [id]);
+    return rowCount > 0;
+  }
+}
