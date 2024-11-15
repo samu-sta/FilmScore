@@ -5,7 +5,7 @@ export class ContentDAO {
   static async getAllContent() {
     try {
       const { rows } = await pool.query('SELECT * FROM model."Content"');
-      return rows.map(row => new Content(row.id, row.title, row.genere, row.description, row.duration, row.rate, row.director, row.poster));
+      return rows.map(row => new Content(row.id, row.title, row.genere, row.description, row.duration, row.rate, row.director, row.poster, row.year));
     } catch (error) {
       throw new Error('Error fetching content: ' + error.message);
     }
@@ -15,8 +15,8 @@ export class ContentDAO {
     try {
       const { rows } = await pool.query('SELECT * FROM model."Content" WHERE id = $1', [id]);
       if (rows.length) {
-        const { title, genere, description, duration, rate, director, poster } = rows[0];
-        return new Content(id, title, genere, description, duration, rate, director, poster);
+        const { title, genere, description, duration, rate, director, poster, year } = rows[0];
+        return new Content(id, title, genere, description, duration, rate, director, poster, year);
       }
       return null;
     } catch (error) {
