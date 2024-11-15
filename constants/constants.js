@@ -23,16 +23,16 @@ export const PORT = 4000;
 export const BASE_URL = `http://localhost:${PORT}`;
 
 export const API_URLS = {
-    LOGIN: '/api/login',
-    REGISTER: '/api/register',
-    LOGOUT: '/api/logout',
+    LOGIN: '/api/profile/login',
+    REGISTER: '/api/profile/register',
+    LOGOUT: '/api/profile/logout',
     PROFILE: '/api/profile',
     PASSWORD: '/api/profile/password',
-    MOVIES: '/api/movies',
+    MOVIES: '/api/content',
     REVIEW_PARAMS: '/api/reviews/:movieId',
     REVIEW: '/api/reviews',
     REVIEW_DELETE: '/api/reviews/:reviewId',
-    EMAIL: '/api/email',
+    EMAIL: '/api/profile/email',
 }
 
 export const CLIENT_URLS = {
