@@ -27,7 +27,11 @@ export const API_URLS = {
     REGISTER: '/api/register',
     PROFILE: '/api/profile',
     PASSWORD: '/api/profile/password',
-    MOVIES: '/api/movies'
+    MOVIES: '/api/movies',
+    REVIEW_PARAMS: '/api/reviews/:movieId',
+    REVIEW: '/api/reviews',
+    REVIEW_DELETE: '/api/reviews/:reviewId',
+    EMAIL: '/api/email',
 }
 
 export const CLIENT_URLS = {
@@ -38,6 +42,6 @@ export const CLIENT_URLS = {
     CHANGE_PASSWORD: '/changePassword',
     MOVIE: '/movie/:id',
     NOT_FOUND: '*',
-    INDEX: '/'
+    INDEX: '/',
 }
 export const COOKIE_NAME = 'jwt'

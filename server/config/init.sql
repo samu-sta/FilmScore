@@ -23,7 +23,7 @@ CREATE SCHEMA IF NOT EXISTS model
 -- Table: model.Content
 CREATE TABLE IF NOT EXISTS model."Content"
 (
-    id integer NOT NULL,
+    id varchar NOT NULL,
     title varchar,
     genere varchar,
     description varchar,
@@ -49,12 +49,12 @@ CREATE TABLE IF NOT EXISTS model."User"
 -- Table: model.Review
 CREATE TABLE IF NOT EXISTS model."Review"
 (
-    id integer NOT NULL,
+    id varchar NOT NULL,
     author varchar,
     rate double precision,
     content varchar,
     "User_fk" varchar REFERENCES model."User"(email),
-    "Content_fkey" integer REFERENCES model."Content"(id),
+    "Content_fkey" varchar REFERENCES model."Content"(id),
     CONSTRAINT "Review_pkey" PRIMARY KEY (id)
 );
 

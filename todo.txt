@@ -1,2 +1,5 @@
 [ ]  cerrar interfaz cuando acaba la cookie
 [ ]  poner las PK de content un string
+[ ]  añadir logout a la api
+[ ]  añadir el year a la tabla content
+[ ]  cambiar nombres de variables

@@ -1,5 +1,6 @@
 import pool from '../config/db.js';
 import Review from '../models/Review.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export class ReviewDAO {
   static async getAllReviews() {
@@ -16,13 +17,16 @@ export class ReviewDAO {
     return null;
   }
 
-  static async getReviewByContentId(contentId) {
+  static async getReviewsByContentId(contentId) {
     const { rows } = await pool.query('SELECT * FROM model."Review" WHERE "Content_fkey" = $1', [contentId]);
     return rows.map(row => new Review(row.id, row.author, row.rate, row.content, row.User_fk, row.Content_fkey));
   }
 
   static async createReview(review) {
-    const { id, author, rate, content, userFk, contentFk } = review;
+    console.log(review);
+    const id = uuidv4();
+    console.log(typeof id);
+    const {author, rate, content, userFk, contentFk } = review;
     const query = `
       INSERT INTO model."Review" (id, author, rate, content, "User_fk", "Content_fkey")
       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;

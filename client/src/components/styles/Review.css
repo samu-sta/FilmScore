@@ -4,6 +4,9 @@
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+
 }
 
 .review-author{
@@ -34,5 +37,28 @@
     text-decoration: underline;
     background-color: #f9d342;
     font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.review-aside {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.review-delete{
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #eee;
+    background-color: inherit;
+    font-size: 1.5rem;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.review-delete:hover{
+    background-color: #f44336;
     transition: background-color 0.3s ease;
 }

@@ -9,6 +9,8 @@ dotenv.config()
 import { ContentDAO } from "../dao/ContentDAO.js";
 import { UserDAO } from "../dao/UserDAO.js";
 import { ReviewDAO } from "../dao/ReviewDAO.js";
+import { createDiffieHellmanGroup } from "crypto";
+import { log } from "console";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -168,6 +170,90 @@ async function deleteProfile(req, res) {
   }
 }
 
+async function getContentReviews(req, res) {
+  const { movieId } = req.params;
+  const reviews = await ReviewDAO.getReviewsByContentId(movieId);
+  return res.status(200).json(reviews);
+}
+
+async function postContentReview(req, res) {
+  const token = req.cookies.jwt
+  if (!token) {
+    return res.status(401).json({ error: ERROR_MESSAGES.UNAUTHORIZED })
+  }
+
+  try {
+    const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
+    const user = await UserDAO.getUserByEmail(decoded.email)
+    if (!user) {
+      return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
+    }
+
+    const { rate, content, author, contentFk } = req.body;
+    const review = {
+      rate,
+      content,
+      author,
+      userFk: user.email,
+      contentFk
+    }
+    await ReviewDAO.createReview(review)
+    return res.status(201).send({status: SUCCESS_MESSAGES.REVIEW_CREATED})
+    
+  } catch (error) {
+    return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })
+  }
+}
+
+async function removeContentReview(req, res) {
+  const token = req.cookies.jwt
+  if (!token) {
+    return res.status(401).json({ error: ERROR_MESSAGES.UNAUTHORIZED })
+  }
+
+  try {
+    const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
+    const user = await UserDAO.getUserByEmail(decoded.email)
+    if (!user) {
+      return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
+    }
+
+    
+    const { reviewId } = req.params;
+    console.log(req.params)
+    const review = await ReviewDAO.getReviewById(reviewId);
+    if (!review) {
+      return res.status(400).json({ error: ERROR_MESSAGES.REVIEW_NOT_FOUND })
+    }
+    console.log(review)
+
+    if (review.userFk !== user.email) {
+      return res.status(403).json({ error: ERROR_MESSAGES.FORBIDDEN })
+    }
+
+    await ReviewDAO.deleteReview(reviewId)
+    return res.status(200).send({ status: SUCCESS_MESSAGES.REVIEW_DELETED })
+    } catch (error) {
+    return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })
+    }
+  }
+  
+  
+
+async function getEmail(req, res) {
+  const token = req.cookies.jwt
+  if (!token) {
+    return res.status(401).json({ error: ERROR_MESSAGES.UNAUTHORIZED })
+  }
+
+  try {
+    const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
+    return res.status(200).send({ email: decoded.email })
+  } catch (error) {
+    return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })
+  }
+}
+
 export const methods = {
   login,
   register,
@@ -175,5 +261,9 @@ export const methods = {
   getProfileDetails,
   putProfileDetails,
   changePassword,
-  deleteProfile
+  deleteProfile,
+  getContentReviews,
+  postContentReview,
+  removeContentReview,
+  getEmail
 }
