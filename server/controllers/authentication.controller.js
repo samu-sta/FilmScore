@@ -254,6 +254,11 @@ async function getEmail(req, res) {
   }
 }
 
+async function logout(req, res) {
+  res.clearCookie(COOKIE_NAME)
+  return res.status(200).send({status: SUCCESS_MESSAGES.LOGOUT_SUCCESS})
+}
+
 export const methods = {
   login,
   register,
@@ -265,5 +270,6 @@ export const methods = {
   getContentReviews,
   postContentReview,
   removeContentReview,
-  getEmail
+  getEmail,
+  logout
 }

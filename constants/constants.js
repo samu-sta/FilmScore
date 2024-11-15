@@ -25,6 +25,7 @@ export const BASE_URL = `http://localhost:${PORT}`;
 export const API_URLS = {
     LOGIN: '/api/login',
     REGISTER: '/api/register',
+    LOGOUT: '/api/logout',
     PROFILE: '/api/profile',
     PASSWORD: '/api/profile/password',
     MOVIES: '/api/movies',

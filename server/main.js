@@ -21,6 +21,7 @@ app.listen(PORT, () => {
 app.get(API_URLS.MOVIES, authentication.getMovies);
 app.post(API_URLS.LOGIN, authentication.login);
 app.post(API_URLS.REGISTER, authentication.register);
+app.post(API_URLS.LOGOUT, authentication.logout);
 app.get(API_URLS.EMAIL, authentication.getEmail);
 app.get(API_URLS.PROFILE, authentication.getProfileDetails);
 app.put(API_URLS.PROFILE, authentication.putProfileDetails);
