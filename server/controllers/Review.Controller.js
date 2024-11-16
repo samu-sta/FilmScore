@@ -8,6 +8,7 @@ dotenv.config()
 async function getContentReviews(req, res) {
   const { movieId } = req.params;
   const reviews = await ReviewDAO.getReviewsByContentId(movieId);
+  console.log(reviews)  
   return res.status(200).json(reviews);
 }
 
@@ -55,12 +56,10 @@ async function removeContentReview(req, res) {
 
 
     const { reviewId } = req.params;
-    console.log(req.params)
     const review = await ReviewDAO.getReviewById(reviewId);
     if (!review) {
       return res.status(400).json({ error: ERROR_MESSAGES.REVIEW_NOT_FOUND })
     }
-    console.log(review)
 
     if (review.userFk !== user.email) {
       return res.status(403).json({ error: ERROR_MESSAGES.FORBIDDEN })

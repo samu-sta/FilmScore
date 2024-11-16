@@ -18,19 +18,22 @@ export class ReviewDAO {
   }
 
   static async getReviewsByContentId(contentId) {
-    const { rows } = await pool.query('SELECT * FROM model."Review" WHERE "Content_fkey" = $1', [contentId]);
+    const { rows } = await pool.query(
+      `SELECT *, "login" as author
+       FROM model."Review" 
+       JOIN model."User" ON "User_fk" = "email"
+       WHERE "Content_fkey" = $1
+       `, [contentId]);
     return rows.map(row => new Review(row.id, row.author, row.rate, row.content, row.User_fk, row.Content_fkey));
   }
 
   static async createReview(review) {
-    console.log(review);
     const id = uuidv4();
-    console.log(typeof id);
-    const {author, rate, content, userFk, contentFk } = review;
+    const { rate, content, userFk, contentFk } = review;
     const query = `
-      INSERT INTO model."Review" (id, author, rate, content, "User_fk", "Content_fkey")
-      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
-    const { rows } = await pool.query(query, [id, author, rate, content, userFk, contentFk]);
+      INSERT INTO model."Review" (id, rate, content, "User_fk", "Content_fkey")
+      VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+    const { rows } = await pool.query(query, [id, rate, content, userFk, contentFk]);
     return new Review(...Object.values(rows[0]));
   }
 

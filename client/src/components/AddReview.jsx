@@ -27,7 +27,6 @@ const AddReview = ({content_id}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const review = {
-      author: 'Anonymous',
       rate: rating,
       content: content,
       contentFk: content_id
