@@ -1,10 +1,8 @@
-[ ]  cerrar interfaz cuando acaba la cookie
 [X]  poner las PK de content un string
 [X]  añadir logout a la api
 [X]  añadir el year a la tabla content
-[X]  cambiar nombres de variables
+[ ]  cambiar nombres de variables (base de datos y codigo)
 [ ]  crear admin para añadir y quitar peliculas
 [X]  crear ficheros controladores
-[ ]  quitar author en reviews y arreglar nombre que sale
-[ ]  poder editar reseñas
-[ ]  contraseñas mas elavoradas
+[X]  quitar author en reviews y arreglar nombre que sale
+[X]  poder editar reseñas

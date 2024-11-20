@@ -3,7 +3,7 @@ import './styles/AddReview.css';
 import { reviewService } from '../services/ReviewService.js';
 import { set } from 'zod';
 
-const AddReview = ({content_id}) => {
+const AddReview = ({content_id, setAddedReview}) => {
 
   const [rating, setRating] = useState('');
   const [content, setContent] = useState('');
@@ -35,6 +35,7 @@ const AddReview = ({content_id}) => {
     setContent('');
     reviewService.createReview(review);
     setIsFormVisible(false);
+    setAddedReview(true);
     window.location.reload();
   };
 

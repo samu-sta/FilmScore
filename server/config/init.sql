@@ -50,13 +50,11 @@ CREATE TABLE IF NOT EXISTS model."User"
 -- Table: model.Review
 CREATE TABLE IF NOT EXISTS model."Review"
 (
-    id varchar NOT NULL,
-    author varchar,
     rate double precision,
     content varchar,
     "User_fk" varchar REFERENCES model."User"(email),
     "Content_fkey" varchar REFERENCES model."Content"(id),
-    CONSTRAINT "Review_pkey" PRIMARY KEY (id)
+    CONSTRAINT "Review_pkey" PRIMARY KEY ("User_fk", "Content_fkey")
 );
 
 -- Insert initial movies

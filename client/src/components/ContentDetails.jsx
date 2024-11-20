@@ -12,8 +12,17 @@ import { API_URLS, BASE_URL } from '../../../constants/constants.js';
 const ContentDetails = ({movies}) => {
   const { id } = useParams();
   const [userId, setUserId] = useState(null);
-  console.log(movies);
+  const [addedReview, setAddedReview] = useState(false);
+  console.log(addedReview);
   const movie = movies.find(m => m.id == id);
+
+  useEffect(() => {
+    console.log('cookie:', document.cookie.includes(COOKIE_NAME))
+    console.log('is: ', reviews.every(review => review.user_id !== userId))
+    setAddedReview(
+      ! reviews.every(review => review.user_id !== userId)
+    );
+  });
 
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
@@ -36,6 +45,7 @@ const ContentDetails = ({movies}) => {
     async function fetchReviews() {
       try {
         const data = await reviewService.fetchReviews(id);
+        console.log(data);
         setReviews(data);
       } catch (error) {
         console.error('Error fetching reviews:', error);
@@ -77,9 +87,9 @@ const ContentDetails = ({movies}) => {
       <section className="content-details-reviews">
         <h2 className='reviews-title'>Reviews</h2>
         <ul className='reviews-list'>
-          {document.cookie.includes(COOKIE_NAME) && (
+          {! addedReview && (
           <li className="reviews-list-item">
-            <AddReview content_id={id} />
+            <AddReview content_id={id} setAddedReview={setAddedReview} />
           </li>
           )}
           {reviews && reviews.length > 0 && (
@@ -87,8 +97,13 @@ const ContentDetails = ({movies}) => {
               <li className="reviews-list-item" key={index}>
                 <Review 
                   review={review} 
-                  ownReview={review.user_id === userId && document.cookie.includes(COOKIE_NAME)}  
-                  deleteReview={reviewService.deleteReview} 
+                  isOwnReview={review.user_id === userId && document.cookie.includes(COOKIE_NAME)}  
+                  setAddedReview={setAddedReview}
+                  deleteReview={reviewService.deleteReview}
+                  setReviews={setReviews}
+                  reviews={reviews}
+
+
                 />
               </li>
             ))

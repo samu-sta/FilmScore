@@ -27,9 +27,9 @@ async function createReview(review) {
   }
 }
 
-async function deleteReview(reviewId) {
+async function deleteReview(userFk, contentFk) {
   try {
-    const response = await fetch(`${API_URLS.REVIEW}/${reviewId}`, {
+    const response = await fetch(`${API_URLS.REVIEW}/${userFk}/${contentFk}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {

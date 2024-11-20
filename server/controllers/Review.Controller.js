@@ -7,8 +7,8 @@ dotenv.config()
 
 async function getContentReviews(req, res) {
   const { movieId } = req.params;
+
   const reviews = await ReviewDAO.getReviewsByContentId(movieId);
-  console.log(reviews)  
   return res.status(200).json(reviews);
 }
 
@@ -29,10 +29,11 @@ async function postContentReview(req, res) {
     const review = {
       rate,
       content,
-      author,
       userFk: user.email,
       contentFk
     }
+
+    console.log(review)
     await ReviewDAO.createReview(review)
     return res.status(201).send({ status: SUCCESS_MESSAGES.REVIEW_CREATED })
 
@@ -55,17 +56,19 @@ async function removeContentReview(req, res) {
     }
 
 
-    const { reviewId } = req.params;
-    const review = await ReviewDAO.getReviewById(reviewId);
+    const { userFk, contentFk } = req.params;
+    console.log(userFk, contentFk)
+    const review = await ReviewDAO.getReviewById(userFk, contentFk)
     if (!review) {
       return res.status(400).json({ error: ERROR_MESSAGES.REVIEW_NOT_FOUND })
     }
+    console.log(review)
 
     if (review.userFk !== user.email) {
       return res.status(403).json({ error: ERROR_MESSAGES.FORBIDDEN })
     }
 
-    await ReviewDAO.deleteReview(reviewId)
+    await ReviewDAO.deleteReview(userFk, contentFk)
     return res.status(200).send({ status: SUCCESS_MESSAGES.REVIEW_DELETED })
   } catch (error) {
     return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN })

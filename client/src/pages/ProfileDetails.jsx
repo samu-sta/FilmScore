@@ -4,6 +4,7 @@ import Activity from '../components/Activity.jsx';
 import ConfirmationModal from '../components/ConfirmationModal.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { COOKIE_NAME, BASE_URL, API_URLS, CLIENT_URLS, ERROR_MESSAGES } from '../../../constants/constants.js';
+import { activities } from '../services/activities.js';
 const ProfileDetails = () => {
 
     const navigate = useNavigate();

@@ -1,6 +1,5 @@
 class Review {
-  constructor(id, author, rate, content, userFk, contentFk) {
-    this.id = id;
+  constructor(author, rate, content, userFk, contentFk) {
     this.author = author;
     this.rate = rate;
     this.content = content;

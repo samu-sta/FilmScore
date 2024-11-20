@@ -2,12 +2,15 @@ import React, {useState} from 'react';
 import './styles/Review.css';
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-const Review = ({ review, ownReview, deleteReview }) => {
+const Review = ({ review, isOwnReview, deleteReview, setAddedReview, setReviews, reviews }) => {
   
   const [isVisible, setIsVisible] = useState(true);
 
   const handleDelete = () => {
-    deleteReview(review.id);
+    deleteReview(review.userFk, review.contentFk);
+    setAddedReview(false);
+    setReviews(reviews.filter(
+      rev => rev.userFk !== review.userFk && rev.contentFk !== review.contentFk));
     setIsVisible(false);
 
   }
@@ -21,7 +24,7 @@ const Review = ({ review, ownReview, deleteReview }) => {
         <p className='review-rating'>Rating: {review.rate}</p>
       </main>
       <aside className='review-aside'>
-        {ownReview && (
+        {isOwnReview && (
           <button 
             className='review-delete'
             onClick={handleDelete}

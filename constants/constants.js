@@ -31,7 +31,7 @@ export const API_URLS = {
     MOVIES: '/api/content',
     REVIEW_PARAMS: '/api/reviews/:movieId',
     REVIEW: '/api/reviews',
-    REVIEW_DELETE: '/api/reviews/:reviewId',
+    REVIEW_DELETE: '/api/reviews/:userFk/:contentFk',
     EMAIL: '/api/profile/email',
 }
 
