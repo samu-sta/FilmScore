@@ -11,10 +11,12 @@ import Register from './pages/Register.jsx';
 import ProfileDetails from './pages/ProfileDetails.jsx';
 import ChangePassword from './pages/ChangePassword.jsx';
 import { BASE_URL, API_URLS, CLIENT_URLS, ERROR_MESSAGES } from '../../constants/constants.js';
-const App = () => {
+  const App = () => {
 
   const [movies, setMovies] = useState([]);
-
+  const [lastActivities, setLastActivities] = useState(
+    localStorage.getItem('lastActivities') ? JSON.parse(localStorage.getItem('lastActivities')) : []);
+  console.log(lastActivities);
   useEffect(() => {
     async function fetchMovies() {
       try {
@@ -33,17 +35,17 @@ const App = () => {
     <Router className="app-router">
       <>
         <header className='header-app'>
-          <Link to={CLIENT_URLS.HOME} className="header-title">FilmScore</Link>
+          <Link to={CLIENT_URLS.HOME} className="header-title" setLastActivities={setLastActivities}>FilmScore</Link>
         </header>
 
         <Routes>
           <Route path={CLIENT_URLS.CHANGE_PASSWORD} element={<ChangePassword />} />
-          <Route path={CLIENT_URLS.PROFILE} element={<ProfileDetails />} />
+          <Route path={CLIENT_URLS.PROFILE} element={<ProfileDetails lastActivities={lastActivities} setLastActivities={setLastActivities} />} />
           <Route path={CLIENT_URLS.REGISTER} element={<Register />} />
           <Route path={CLIENT_URLS.INDEX} element={<Index />} />
-          <Route path={CLIENT_URLS.LOGIN} element={<Login />} />
-          <Route path={CLIENT_URLS.HOME} element={<Home movies={movies}/>} />
-          <Route path={CLIENT_URLS.MOVIE} element={<MovieDetails movies={movies}/>} />
+          <Route path={CLIENT_URLS.LOGIN} element={<Login setLastActivities={setLastActivities} />} />
+          <Route path={CLIENT_URLS.HOME} element={<Home movies={movies} setLastActivities={setLastActivities} />} />
+          <Route path={CLIENT_URLS.MOVIE} element={<MovieDetails movies={movies} setLastActivities={setLastActivities} />} />
           <Route path={CLIENT_URLS.NOT_FOUND} element={<NotFound />} />
         </Routes>
         <footer className="app-footer">

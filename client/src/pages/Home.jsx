@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { COOKIE_NAME, CLIENT_URLS } from '../../../constants/constants.js';
-
+import { activities } from '../services/activities.js';
 import './styles/Home.css';
 
-const Home = ({movies}) => {
+const Home = ({movies, setLastActivities}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   const handleLogout = () => {
     document.cookie = `${COOKIE_NAME}=; Expires=Thu, 01 Jan 1970 00:00:00 UTC; Path=/;`;
+    setLastActivities([]);
+    localStorage.removeItem('lastActivities');
     navigate(CLIENT_URLS.LOGIN);
   }
 

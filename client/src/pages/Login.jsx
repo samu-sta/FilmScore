@@ -2,7 +2,8 @@ import './styles/Auth.css';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { COOKIE_NAME, API_URLS, BASE_URL, CLIENT_URLS, ERROR_MESSAGES } from '../../../constants/constants.js';
-const Login = () => {
+import { activities } from '../services/activities.js';
+const Login = ({setLastActivities}) => {
 
   const navigate = useNavigate();
   const [error, setError] = useState(false);
@@ -27,6 +28,14 @@ const Login = () => {
       }
       setError(false);
 
+      setLastActivities(
+        (prevActivities) => {
+          const updatedActivities =  [...prevActivities, new activities.LoggedIn(new Date())];
+          localStorage.setItem('lastActivities', JSON.stringify(updatedActivities));
+          return updatedActivities;
+        }
+      );
+
       await res.json();
       const cookies = res.headers.get('set-cookie');
       if (!cookies) {
@@ -34,7 +43,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error(ERROR_MESSAGES.FETCH_ERROR, error);
-    }
+    } 
 
   };
 

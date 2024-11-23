@@ -1,6 +1,6 @@
 export const TIME_EXPIRATION = {
-    ACCESS_TOKEN: '15m',
-    COOKIE_EXPIRATION: 15 * 60 * 1000,
+    ACCESS_TOKEN: '1d',
+    COOKIE_EXPIRATION: 24 * 60 * 60 * 1000,
 }
 export const ERROR_MESSAGES = {
     INVALID_TOKEN: "Invalid token",

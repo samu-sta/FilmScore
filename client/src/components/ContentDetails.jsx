@@ -9,7 +9,7 @@ import { COOKIE_NAME, CLIENT_URLS } from '../../../constants/constants.js';
 import { reviewService } from '../services/ReviewService.js';
 import { API_URLS, BASE_URL } from '../../../constants/constants.js';
 
-const ContentDetails = ({movies}) => {
+const ContentDetails = ({movies, setLastActivities}) => {
   const { id } = useParams();
   const [userId, setUserId] = useState(null);
   const [addedReview, setAddedReview] = useState(false);
@@ -89,7 +89,7 @@ const ContentDetails = ({movies}) => {
         <ul className='reviews-list'>
           {! addedReview && (
           <li className="reviews-list-item">
-            <AddReview content_id={id} setAddedReview={setAddedReview} />
+            <AddReview content_id={id} setAddedReview={setAddedReview} setLastActivities={setLastActivities} />
           </li>
           )}
           {reviews && reviews.length > 0 && (

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './styles/AddReview.css';
 import { reviewService } from '../services/ReviewService.js';
-import { set } from 'zod';
+import { activities } from '../services/activities.js';
 
-const AddReview = ({content_id, setAddedReview}) => {
+const AddReview = ({content_id, setAddedReview, setLastActivities}) => {
 
   const [rating, setRating] = useState('');
   const [content, setContent] = useState('');
@@ -36,6 +36,18 @@ const AddReview = ({content_id, setAddedReview}) => {
     reviewService.createReview(review);
     setIsFormVisible(false);
     setAddedReview(true);
+    setLastActivities(
+      (prevActivities) => {
+        const newActivities = [...prevActivities, new activities.PutReview(new Date())];
+        const updatedActivities = newActivities.length > 3 ? newActivities.slice(-3) : newActivities;
+        
+        // Save to localStorage
+        localStorage.setItem('lastActivities', JSON.stringify(updatedActivities));
+        
+        return updatedActivities;
+      }
+    );
+
     window.location.reload();
   };
 

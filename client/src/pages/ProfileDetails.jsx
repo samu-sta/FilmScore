@@ -5,11 +5,13 @@ import ConfirmationModal from '../components/ConfirmationModal.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { COOKIE_NAME, BASE_URL, API_URLS, CLIENT_URLS, ERROR_MESSAGES } from '../../../constants/constants.js';
 import { activities } from '../services/activities.js';
-const ProfileDetails = () => {
+const ProfileDetails = ({lastActivities, setLastActivities}) => {
 
     const navigate = useNavigate();
     const [error, setError] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    console.log("lastActivities:");
+    console.log(lastActivities);
     const [profile, setProfile] = useState({
         email: '',
         login: '',
@@ -97,6 +99,14 @@ const ProfileDetails = () => {
                 return;
             }
             setError(false);
+            setLastActivities(
+                (prevActivities) => {
+                    const newActivities = [...prevActivities, new activities.UpdatedProfile(new Date())];
+                    const updatedActivities = newActivities.length > 3 ? newActivities.slice(-3) : newActivities;
+                    localStorage.setItem('lastActivities', JSON.stringify(updatedActivities));
+                    return updatedActivities;
+                }
+              );
             const data = await res.json();
             setProfile(data);
             navigate(CLIENT_URLS.HOME);
@@ -153,9 +163,9 @@ const ProfileDetails = () => {
                 <section className='profile-details-activities'>
                     <h2>Last Activities</h2>
                     <ul className='profile-details-activities-list'>
-                        <li> <Activity activityName='Updated profile' date='2021-09-10' description='Changed profile details' /> </li>
-                        <li> <Activity activityName='Logged out' date='2021-09-15' description='Logged out from the system' /> </li>
-                        <li> <Activity activityName='Logged in' date='2021-09-01' description='Logged in for the first time' /> </li>
+                        {lastActivities.map((activity, index) => (
+                            <Activity key={index} activity={activity} />
+                        ))}
                     </ul>
                 </section>
 
