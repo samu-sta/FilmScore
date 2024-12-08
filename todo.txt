@@ -1,8 +1,0 @@
-[X]  poner las PK de content un string
-[X]  añadir logout a la api
-[X]  añadir el year a la tabla content
-[ ]  cambiar nombres de variables (base de datos y codigo)
-[ ]  crear admin para añadir y quitar peliculas
-[X]  crear ficheros controladores
-[X]  quitar author en reviews y arreglar nombre que sale
-[X]  poder editar reseñas
