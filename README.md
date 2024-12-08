@@ -37,6 +37,11 @@ FilmScore is a movie review page where users can browse and review their favorit
 
     ```properties
     JWT_SECRET=your_secret_key_here
+    DB_HOST=localhost
+    DB_USER=postgres
+    DB_PASSWORD=8255
+    DB_NAME=FilmScore
+    DB_PORT=5432
     ```
 
     Replace `your_secret_key_here` with a long, random string for security.
