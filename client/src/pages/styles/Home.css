@@ -1,3 +1,13 @@
+.header-home-button {
+    background-color: inherit;
+    border: none;
+    color: #f9d342;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 1rem;
+  }
+
 .movie-poster {
     object-fit: cover;
     height: 300px;
@@ -33,7 +43,7 @@
     color: #fff;
     overflow: hidden;
     position: relative;
-    width: 25vh;
+    width: 30vh;
 }
 
 .movie-item:hover {
@@ -87,7 +97,7 @@
     border-radius: 5px;
     cursor: pointer;
     color: #f9d342;
-    font-size: 1.5rem;
+    font-size: 1rem;
     text-decoration: underline;
     background-color: inherit;
     font-weight: bold;

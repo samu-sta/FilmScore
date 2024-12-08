@@ -9,7 +9,7 @@
     display: flex;
     justify-content: center;
 }
-
+ 
 .profile-details-form{
     width: 360px;
 }
@@ -31,20 +31,18 @@
 .profile-details-activities{
     display: flex;
     flex-direction: column;
-    height: 100%;
     padding: 10px;
 }
 
 .profile-details-header{
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    width: 80%;
-    padding: 10px 0;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 30px 0;
 }
 
 .profile-details-title{
-    flex-grow: 1;
     text-align: center;
 }
 

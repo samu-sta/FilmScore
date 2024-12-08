@@ -87,7 +87,7 @@ const ContentDetails = ({movies, setLastActivities}) => {
       <section className="content-details-reviews">
         <h2 className='reviews-title'>Reviews</h2>
         <ul className='reviews-list'>
-          {! addedReview && (
+          {! addedReview && document.cookie.includes(COOKIE_NAME) && (
           <li className="reviews-list-item">
             <AddReview content_id={id} setAddedReview={setAddedReview} setLastActivities={setLastActivities} />
           </li>

@@ -7,7 +7,6 @@ body{
 }
 
 .app-router{
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,12 +17,13 @@ body{
   justify-content: center;
   gap: 30px;
   align-items: center;
-  width: 100%;
   padding: 10px 20px;
-  background-color: #111;
   width: 100%;
+  background-color: #111;
 }
-
+.app-routes{
+  display: flex;
+}
 
 
 
@@ -79,14 +79,6 @@ body{
   padding: 10px 20px;
 }
 
-.header-home-button {
-  background-color: inherit;
-  border: none;
-  color: #f9d342;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: underline;
-  font-size: 1.5rem;
-}
+
 
 

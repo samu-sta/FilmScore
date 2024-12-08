@@ -15,7 +15,7 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../client/public')));
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on ${BASE_URL}`);
 });
 

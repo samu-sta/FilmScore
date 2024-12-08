@@ -38,7 +38,7 @@ import { BASE_URL, API_URLS, CLIENT_URLS, ERROR_MESSAGES } from '../../constants
           <Link to={CLIENT_URLS.HOME} className="header-title" setLastActivities={setLastActivities}>FilmScore</Link>
         </header>
 
-        <Routes>
+        <Routes className="app-routes">
           <Route path={CLIENT_URLS.CHANGE_PASSWORD} element={<ChangePassword />} />
           <Route path={CLIENT_URLS.PROFILE} element={<ProfileDetails lastActivities={lastActivities} setLastActivities={setLastActivities} />} />
           <Route path={CLIENT_URLS.REGISTER} element={<Register />} />

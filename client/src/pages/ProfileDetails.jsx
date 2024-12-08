@@ -129,7 +129,7 @@ const ProfileDetails = ({lastActivities, setLastActivities}) => {
             />
             <header className='profile-details-header'>
                 <Link to={CLIENT_URLS.HOME} className="back-link">← Back Home</Link>
-                <h1 className='auth-title profile-details-title'>Profile Details</h1>
+                <h1 className='profile-details-title'>Profile Details</h1>
                 <button 
                     className='delete-account-button'
                     onClick={() => setShowModal(true)}
