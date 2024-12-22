@@ -20,7 +20,7 @@ export const SUCCESS_MESSAGES = {
 };
 export const PORT = 4000;
 
-export const BASE_URL = `http://192.168.0.20:${PORT}`;
+export const BASE_URL = `http://localhost:${PORT}`;
 
 export const API_URLS = {
     LOGIN: '/api/profile/login',

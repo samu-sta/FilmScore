@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import './styles/Auth.css';
 import { COOKIE_NAME, API_URLS, BASE_URL, CLIENT_URLS, ERROR_MESSAGES } from '../../../constants/constants.js'
+import { registerUser } from '../services/UserService.js';
 
 import { Link, useNavigate } from 'react-router-dom';
 const Register = () => {
@@ -10,29 +11,23 @@ const Register = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const res = await fetch(`${BASE_URL}${API_URLS.REGISTER}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: event.target.email.value,
-          password: event.target.password.value,
-          login: event.target.login.value,
-          lastName: event.target.lastName.value,
-          firstName: event.target.firstName.value,
-          birthYear: Number(event.target.birthYear.value),
-        }),
-      });
 
-      if (!res.ok) {
+    const body = {
+      email: event.target.email.value,
+      password: event.target.password.value,
+      login: event.target.login.value,
+      lastName: event.target.lastName.value,
+      firstName: event.target.firstName.value,
+      birthYear: Number(event.target.birthYear.value)
+    };
+    try {
+      const res = await registerUser(body);
+      if (res.error) {
         setError(true);
         return;
       }
       setError(false);
 
-      const data = await res.json();
       navigate(CLIENT_URLS.LOGIN);
     } catch (error) {
       console.error(ERROR_MESSAGES.FETCH_ERROR, error);

@@ -3,26 +3,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { COOKIE_NAME, API_URLS, BASE_URL, CLIENT_URLS, ERROR_MESSAGES } from '../../../constants/constants.js';
 import { activities } from '../services/activities.js';
+import { loginUser } from '../services/UserService.js';
 const Login = ({setLastActivities}) => {
 
   const navigate = useNavigate();
   const [error, setError] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const data = {
+      email: event.target.email.value,
+      password: event.target.password.value,
+    };
     try {
-      const res = await fetch(`${BASE_URL}${API_URLS.LOGIN}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: event.target.email.value,
-          password: event.target.password.value,
-        }),
-        credentials: 'include',
-      });
+      const res = await loginUser(data);
 
-      if (!res.ok) {
+      if (res.error) {
         setError(true);
         return;
       }
@@ -36,11 +31,7 @@ const Login = ({setLastActivities}) => {
         }
       );
 
-      await res.json();
-      const cookies = res.headers.get('set-cookie');
-      if (!cookies) {
-        navigate(CLIENT_URLS.HOME);
-      }
+      navigate(CLIENT_URLS.HOME);
     } catch (error) {
       console.error(ERROR_MESSAGES.FETCH_ERROR, error);
     } 

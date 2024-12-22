@@ -4,30 +4,22 @@ import { Link } from 'react-router-dom';
 import './App.css';
 import NotFound from './pages/NotFound.jsx';
 import Home from './pages/Home.jsx';
-import MovieDetails from './components/ContentDetails.jsx';
+import ContentDetails from './pages/ContentDetails.jsx';
 import Index from './pages/Index.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import ProfileDetails from './pages/ProfileDetails.jsx';
 import ChangePassword from './pages/ChangePassword.jsx';
-import { BASE_URL, API_URLS, CLIENT_URLS, ERROR_MESSAGES } from '../../constants/constants.js';
+import { fetchMovies } from './services/ContentService.js';
+import { CLIENT_URLS } from '../../constants/constants.js';
   const App = () => {
 
   const [movies, setMovies] = useState([]);
   const [lastActivities, setLastActivities] = useState(
     localStorage.getItem('lastActivities') ? JSON.parse(localStorage.getItem('lastActivities')) : []);
-  console.log(lastActivities);
+    
   useEffect(() => {
-    async function fetchMovies() {
-      try {
-        const res = await fetch(`${BASE_URL}${API_URLS.MOVIES}`);
-        const data = await res.json();
-        setMovies(data);
-      } catch (error) {
-        console.Error(ERROR_MESSAGES.FETCH_ERROR, error);
-      }
-    }
-    fetchMovies();
+    fetchMovies().then(data => setMovies(data));
   }
     , []);
 
@@ -45,7 +37,7 @@ import { BASE_URL, API_URLS, CLIENT_URLS, ERROR_MESSAGES } from '../../constants
           <Route path={CLIENT_URLS.INDEX} element={<Index />} />
           <Route path={CLIENT_URLS.LOGIN} element={<Login setLastActivities={setLastActivities} />} />
           <Route path={CLIENT_URLS.HOME} element={<Home movies={movies} setLastActivities={setLastActivities} />} />
-          <Route path={CLIENT_URLS.MOVIE} element={<MovieDetails movies={movies} setLastActivities={setLastActivities} />} />
+          <Route path={CLIENT_URLS.MOVIE} element={<ContentDetails movies={movies} setLastActivities={setLastActivities} />} />
           <Route path={CLIENT_URLS.NOT_FOUND} element={<NotFound />} />
         </Routes>
         <footer className="app-footer">

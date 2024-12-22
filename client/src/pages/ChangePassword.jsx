@@ -2,7 +2,7 @@ import './styles/Auth.css';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { COOKIE_NAME, API_URLS, BASE_URL, CLIENT_URLS } from '../../../constants/constants.js';
-
+import { changePassword } from '../services/UserService.js';
 const ChangePassword = () => {
 
   const navigate = useNavigate();
@@ -24,19 +24,13 @@ const ChangePassword = () => {
     }
     setError(false);
 
-    await fetch(`${BASE_URL}${API_URLS.PASSWORD}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        password: password,
-      }),
-      credentials: 'include',
-    });
-
-    navigate(CLIENT_URLS.HOME);
-
+    try {
+      await changePassword(password);
+      navigate(CLIENT_URLS.HOME);
+    }
+    catch (error) {
+      console.error(error);
+    }
   }
 
 

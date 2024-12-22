@@ -1,8 +1,7 @@
-// client/src/services/reviewService.js
 import { API_URLS } from '../../../constants/constants.js';
 
 
-async function fetchReviews(movieId) {
+export async function fetchReviews(movieId) {
   try {
     const response = await fetch(`${API_URLS.REVIEW}/${movieId}`);
     const data = await response.json();
