@@ -88,7 +88,6 @@ async function putProfileDetails(req, res) {
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET)
     const user = await UserDAO.getUserByEmail(decoded.email)
-    console.log(user)
     if (!user) {
       return res.status(400).json({ error: ERROR_MESSAGES.USER_NOT_FOUND })
     }
@@ -98,7 +97,6 @@ async function putProfileDetails(req, res) {
       ...userDetails,
       ...req.body
     }
-    console.log(updatedUser)
     await UserDAO.updateUser(updatedUser)
     return res.status(200).send(userDetails)
   } catch (error) {

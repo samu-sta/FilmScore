@@ -18,7 +18,6 @@ export class ReviewDAO {
   }
 
   static async getReviewsByContentId(contentId) {
-    console.log('contentId:', contentId); 
     const { rows } = await pool.query(
       `SELECT *, "login" as author
        FROM model."Review" 
@@ -31,7 +30,6 @@ export class ReviewDAO {
 
   static async createReview(review) {
     const { rate, content, userFk, contentFk } = review;
-    console.log('review:', review);
     const query = `
       INSERT INTO model."Review" (rate, content, "User_fk", "Content_fkey")
       VALUES ($1, $2, $3, $4) RETURNING *`;

@@ -33,7 +33,6 @@ async function postContentReview(req, res) {
       contentFk
     }
 
-    console.log(review)
     await ReviewDAO.createReview(review)
     return res.status(201).send({ status: SUCCESS_MESSAGES.REVIEW_CREATED })
 
@@ -57,12 +56,10 @@ async function removeContentReview(req, res) {
 
 
     const { userFk, contentFk } = req.params;
-    console.log(userFk, contentFk)
     const review = await ReviewDAO.getReviewById(userFk, contentFk)
     if (!review) {
       return res.status(400).json({ error: ERROR_MESSAGES.REVIEW_NOT_FOUND })
     }
-    console.log(review)
 
     if (review.userFk !== user.email) {
       return res.status(403).json({ error: ERROR_MESSAGES.FORBIDDEN })

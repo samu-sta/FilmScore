@@ -19,16 +19,19 @@ const ContentDetails = ({movies, setLastActivities}) => {
 
   useEffect(() => {
     setAddedReview(
-      ! reviews.every(review => review.user_id !== userId)
+      ! reviews.every(review => review.userFk !== userId)
     );
   });
 
   const [reviews, setReviews] = useState([]);
+  console.log(reviews);
+
+
   useEffect(() => {
     async function fetchUserId() {
       try {
         const response = await getUserId();
-        setUserId(response.id);
+        setUserId(response.email);
       } catch (error) {
         console.error('Error fetching user ID:', error);
       }
@@ -37,7 +40,7 @@ const ContentDetails = ({movies, setLastActivities}) => {
       fetchUserId();
     }
     
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     async function fetchAllReviews() {
@@ -91,7 +94,7 @@ const ContentDetails = ({movies, setLastActivities}) => {
               <li className="reviews-list-item" key={index}>
                 <Review 
                   review={review} 
-                  isOwnReview={review.user_id === userId && document.cookie.includes(COOKIE_NAME)}  
+                  isOwnReview={review.userFk === userId && document.cookie.includes(COOKIE_NAME)}  
                   setAddedReview={setAddedReview}
                   deleteReview={reviewService.deleteReview}
                   setReviews={setReviews}
